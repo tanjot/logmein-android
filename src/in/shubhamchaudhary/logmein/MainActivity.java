@@ -20,6 +20,7 @@
 
 package in.shubhamchaudhary.logmein;
 
+import in.shubhamchaudhary.logmein.UserDatabase.PlaceholderFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,10 +51,18 @@ public class MainActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		if (savedInstanceState == null) {
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.container_main, new PlaceholderFragment()).commit();
+		}
+
 		networkEngine = new NetworkEngine();
 		databaseEngine = new DatabaseEngine(this);
 
 		outputTextView = (TextView)findViewById(R.id.outputTextView);
+		if (outputTextView == null)
+			Log.d("Main", "outputTextView is Null");
+
 		String username = databaseEngine.getUsername();
 		if (username != null){
 		//if (username.length() != 0){
@@ -86,11 +95,6 @@ public class MainActivity extends ActionBarActivity{
 
 		textbox_username=(EditText)findViewById(R.id.edit_username);
 		textbox_password=(EditText)findViewById(R.id.edit_password);
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-			.add(R.id.container, new PlaceholderFragment()).commit();
-		}
-
 	}
 
 	@Override
@@ -126,6 +130,7 @@ public class MainActivity extends ActionBarActivity{
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
+			Log.d("frag",rootView.toString());
 			return rootView;
 		}
 	}
